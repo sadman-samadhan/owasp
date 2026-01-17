@@ -55,11 +55,11 @@ This document details the complete setup and configuration of a Moodle mobile ap
 
 ```php
 $CFG->dbtype    = 'mariadb';
-$CFG->dbhost    = 'localhost';
-$CFG->dbname    = 'moodle';
-$CFG->dbuser    = 'root';
-$CFG->dbpass    = 'sakib@123';
-$CFG->prefix    = 'mdl_';
+$CFG->dbhost    = ' ';
+$CFG->dbname    = ' ';
+$CFG->dbuser    = ' ';
+$CFG->dbpass    = ' @123';
+$CFG->prefix    = ' ';
 ```
 
 ### 2. Web Services Enabled
@@ -136,17 +136,17 @@ if (isset($_SERVER['REQUEST_METHOD'])) {
 ### 6. Admin User Configuration
 
 **Username**: `admin`  
-**Password**: `Admin123!`  
+**Password**: `YOUR_ADMIN_PASSWORD`  
 **User ID**: `2`
 
 **Password reset command**:
 ```bash
-php admin/cli/reset_password.php --username=admin --password=Admin123!
+php admin/cli/reset_password.php --username=admin --password=YOUR_NEW_PASSWORD
 ```
 
 ### 7. Token Management
 
-**Current Token**: `d03faf58eac1ee9b8d00990bebb24955`
+**Example Token**: `abc123def456...` (32 character hash)
 
 Tokens are stored in `mdl_external_tokens` table:
 
@@ -160,7 +160,7 @@ Tokens are stored in `mdl_external_tokens` table:
 
 **Token generation endpoint**:
 ```
-GET /owasp-moodle/login/token.php?username=admin&password=Admin123!&service=moodle_mobile_app
+GET /owasp-moodle/login/token.php?username=admin&password=YOUR_PASSWORD&service=moodle_mobile_app
 ```
 
 ---
@@ -354,7 +354,7 @@ Parameters:
 
 Response:
 {
-  "token": "d03faf58eac1ee9b8d00990bebb24955"
+  "token": "abc123def456..." // 32-character hash
 }
 ```
 
@@ -505,7 +505,7 @@ SELECT token, userid, externalserviceid FROM mdl_external_tokens WHERE userid = 
 
 **Example of deleted user**:
 - Username: `test@example.com.1768629920` (email + timestamp)
-- Email: `5a105e8b9d40e1329780d62ea2265d8a` (hash)
+- Email: `abc123def456...` (hash)
 
 **Solution**: Filter users with `@` in username (already implemented):
 ```typescript
@@ -635,7 +635,7 @@ Access at: `http://localhost:8100`
 
 ### Login Credentials
 - **Username**: `admin`
-- **Password**: `Admin123!`
+- **Password**: `YOUR_ADMIN_PASSWORD`
 
 ---
 
@@ -689,7 +689,7 @@ php admin/cli/reset_password.php --username=admin --password=NewPassword123!
 
 ### Check Database Connection
 ```bash
-mysql -u root -psakib@123 -h localhost -e "USE moodle; SELECT COUNT(*) FROM mdl_user;"
+mysql -u root -pYOUR_DB_PASSWORD -h localhost -e "USE moodle; SELECT COUNT(*) FROM mdl_user;"
 ```
 
 ### View Active Tokens
