@@ -1,0 +1,81 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Moodle Ionic App</ion-title>
+    <ion-buttons slot="end" *ngIf="isLoggedIn">
+      <ion-button (click)="logout()">Logout</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <div *ngIf="!isLoggedIn" class="login-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Login</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="floating">Username</ion-label>
+          <ion-input [(ngModel)]="loginData.username"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Password</ion-label>
+          <ion-input type="password" [(ngModel)]="loginData.password"></ion-input>
+        </ion-item>
+        <ion-button expand="block" class="ion-margin-top" (click)="login()">Login</ion-button>
+        <p class="ion-text-center ion-margin-top">
+          <small>Use Moodle credentials (e.g. admin/password)</small>
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div *ngIf="isLoggedIn">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Create New User</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-input placeholder="Username" [(ngModel)]="newUser.username"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input placeholder="Password" type="password" [(ngModel)]="newUser.password"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input placeholder="First Name" [(ngModel)]="newUser.firstname"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input placeholder="Last Name" [(ngModel)]="newUser.lastname"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input placeholder="Email" [(ngModel)]="newUser.email"></ion-input>
+          </ion-item>
+          <ion-button expand="block" (click)="createUser()">Create User</ion-button>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <h2 class="ion-margin-top">User List</h2>
+    <h3 *ngIf="siteInfo.fullname">Site: {{ siteInfo.fullname }}</h3>
+
+    <ion-list>
+      <ion-item *ngFor="let user of users">
+        <ion-label>
+          <h2>{{ user.firstname }} {{ user.lastname }}</h2>
+          <p>{{ user.username }} - {{ user.email }}</p>
+        </ion-label>
+        <ion-buttons slot="end">
+          <ion-button color="secondary" (click)="updateUser(user)">
+            Edit
+          </ion-button>
+          <ion-button color="danger" (click)="deleteUser(user)">
+            Delete
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
